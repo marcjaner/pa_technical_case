@@ -15,9 +15,18 @@ GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwSSDkQKU58KNlVpPtw
 @app.route('/api/process', methods=['GET'])
 def process():
     process_id = request.args.get('process_id')
-
+    if not process_id:
+        return jsonify({"error": "process_id is required"}), 400
+        
     response = requests.get(GOOGLE_SCRIPT_URL, params={"process_id": process_id})
-    return jsonify(response.json())
+    
+    if response.status_code != 200:
+        return jsonify({"error": "Failed to get response from Google Apps Script"}), response.status_code
+        
+    try:
+        return jsonify(response.json())
+    except ValueError:
+        return jsonify({"error": "Invalid response from Google Apps Script"}), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5005))
