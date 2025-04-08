@@ -15,10 +15,8 @@ GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwSSDkQKU58KNlVpPtw
 @app.route('/api/process', methods=['GET'])
 def process():
     process_id = request.args.get('process_id')
-    payload = {
-        "process_id": process_id,
-    }
-    response = requests.post(GOOGLE_SCRIPT_URL, json=payload)
+
+    response = requests.get(GOOGLE_SCRIPT_URL, params={"process_id": process_id})
     return jsonify(response.json())
 
 if __name__ == '__main__':
