@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes, allowing any origin
 
 # Google Apps Script URL (deberá ser configurado en el archivo .env)
-GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyrWpzV0NeNqTtOEH0oZ0Ne3Xgek24M6errG1WeYUOOiCYKQNjWF2kcw3L9kOdYnPbL/exec'
+GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwSSDkQKU58KNlVpPtweEUUpuBCacr_7H1QQ-caa6V29SmM-jbRvrSsrrZfU6WOMgSPTg/exec'
 
 @app.route('/api/process', methods=['GET'])
 def process():
@@ -22,4 +22,5 @@ def process():
     return jsonify(response.json())
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
